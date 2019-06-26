@@ -3,7 +3,13 @@
 #include <algorithm>
 using namespace std;
 
-
+/*************************************************************************
+Function name	: operator<<
+Description		: plots the functions on the rhs to standard output.
+Paramerters		: const func& function - the function to plot on the rhs.
+	ostream& os - an ostream object.
+Return value	: ostream& to enable cascading the << operator multiple times.
+************************************************************************/
 ostream& operator<<(ostream& os, const func& function) {
 	if (&function == nullptr) {
 		throw nullptr;
@@ -11,6 +17,12 @@ ostream& operator<<(ostream& os, const func& function) {
 	function.plot(os);
 	return os;
 }
+/*************************************************************************
+Function name	: plot
+Description		: plots the function's graph.
+Paramerters		: os - an ostream object.
+Return value	: none
+************************************************************************/
 void func::plot(ostream& os) const{
 	if (isInitialized) {
 		vector<int> sortImage;

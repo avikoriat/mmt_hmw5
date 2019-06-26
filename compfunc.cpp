@@ -29,7 +29,7 @@ compfunc& compfunc::operator<<(const int& x) {
 }
 /*************************************************************************
 Function name	: plot
-Description		: plots the composite function's graph graph.
+Description		: plots the composite function's graph.
 Paramerters		: os - an ostream object.
 Return value	: none
 ************************************************************************/
