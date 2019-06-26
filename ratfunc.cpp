@@ -107,30 +107,18 @@ Paramerters		: os - an ostream object.
 Return value	: none
 ************************************************************************/
 void ratfunc::plot(ostream& os) const {
-
-	if (numerator_.getOrder() == 0 && numerator_.getCoef(0) == 0) {
-		os << 0 << endl;
-		os << "Derivative: 0" << endl;
-	}
-	else {
-		os << '(';
-		numerator_.printcoefs(os);
-		os << ")/(";
-		denominator_.printcoefs(os);
-		os << ')' << endl;
-		ratfunc derivative_ratfunc(derivative());
-		os << "Derivative: ";
-		if (derivative_ratfunc.numerator_.getOrder() == 0 && derivative_ratfunc.numerator_.getCoef(0) == 0) {
-			 os<< 0 << endl;
-		}
-		else {
-			os << '(';
-			derivative_ratfunc.numerator_.printcoefs(os);
-			os << ")/(";
-			derivative_ratfunc.denominator_.printcoefs(os);
-			os <<')'<< endl;
-		}
-	}
+	os << '(';
+	numerator_.printcoefs(os);
+	os << ")/(";
+	denominator_.printcoefs(os);
+	os << ')' << endl;
+	ratfunc derivative_ratfunc(derivative());
+	os << "Derivative: ";
+	os << '(';
+	derivative_ratfunc.numerator_.printcoefs(os);
+	os << ")/(";
+	derivative_ratfunc.denominator_.printcoefs(os);
+	os <<')'<< endl;
 	func::plot(os);
 }
 /*************************************************************************
