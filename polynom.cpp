@@ -1,7 +1,7 @@
 #include <cmath>
 #include "polynom.h"
 
-
+//C'tor
 polynom::polynom(int order, int* coefs) : n_(order){
 
 	coefs_ = new int[order + 1];
@@ -9,11 +9,11 @@ polynom::polynom(int order, int* coefs) : n_(order){
 		coefs_[i] = coefs[i];
 	}
 }
-
+//D'tor
 polynom::~polynom() {
 	delete[] coefs_;
 }
-
+//copy C'tor
 polynom::polynom(const polynom& rhs): n_(rhs.n_) {
 	coefs_ = new int[rhs.n_ + 1];
 	for (int i = 0; i < (rhs.n_ + 1); i++) {
@@ -21,7 +21,7 @@ polynom::polynom(const polynom& rhs): n_(rhs.n_) {
 	}
 
 }
-
+//assignment operator
 polynom& polynom::operator=(const polynom& rhs) {
 	if (this != &rhs) {
 		n_ = rhs.n_;
@@ -35,7 +35,13 @@ polynom& polynom::operator=(const polynom& rhs) {
 	}
 	return *this;
 }
-
+/*************************************************************************
+Function name	:operator<<
+Description		:inserts the input x to the <input,output> map of the object
+Paramerters		: x - a value to insert.
+Return value	: polynom& - a reference to the lhs polynom to enable
+	cascading of the << oprerator multiple times.
+************************************************************************/
 polynom& polynom::operator<<(const int& x) {
 	fmap_[x] = evaluate(x);
 	if (!isInitialized) {
@@ -52,7 +58,14 @@ polynom& polynom::operator<<(const int& x) {
 	}
 	return *this;
 }
-
+/*************************************************************************
+Function name	:operator+
+Description		: calculates the addition of the lhs and the rhs polynoms
+	and returns the value of the result.
+Paramerters		: const polynom& lhs, const polynom& rhs - the left hand side
+	and the right hand side of the operator.
+Return value	: polynom - the result of the operation
+************************************************************************/
 polynom operator+(const polynom& lhs, const polynom& rhs) {
 	int max_order = lhs.n_ > rhs.n_ ? lhs.n_ : rhs.n_;
 	int min_order = lhs.n_ < rhs.n_ ? lhs.n_ : rhs.n_;
@@ -75,7 +88,14 @@ polynom operator+(const polynom& lhs, const polynom& rhs) {
 	delete[] coefsOfSum;
 	return polynomOfSum;
 }
-
+/*************************************************************************
+Function name	:operator-
+Description		: calculates the subtraction of the rhs polynom from the lhs
+	 polynom and returns the value of the result.
+Paramerters		: const polynom& lhs, const polynom& rhs - the left hand side
+	and the right hand side of the operator.
+Return value	:  polynom - the result of the operation
+************************************************************************/
 polynom operator-(const polynom& lhs, const polynom& rhs) {
 	int max_order = lhs.n_ > rhs.n_ ? lhs.n_ : rhs.n_;
 	int min_order = lhs.n_ < rhs.n_ ? lhs.n_ : rhs.n_;
@@ -98,7 +118,14 @@ polynom operator-(const polynom& lhs, const polynom& rhs) {
 	delete[] coefsOfsub;
 	return polynomOfSub;
 }
-
+/*************************************************************************
+Function name	:operator*
+Description		: calculates the multiplication of the lhs and the rhs polynoms
+	and returns the value of the result.
+Paramerters		: const polynom& lhs, const polynom& rhs - the left hand side
+	and the right hand side of the operator.
+Return value	:  polynom - the result of the operation
+************************************************************************/
 polynom operator*(const polynom& lhs, const polynom& rhs) {
 	
 	int newCoefsSize = rhs.n_ + lhs.n_;
@@ -122,7 +149,13 @@ polynom operator*(const polynom& lhs, const polynom& rhs) {
 	delete[] coefsOfproduct;
 	return polynomOfProduct;
 }
-
+/*************************************************************************
+Function name	:plot
+Description		:plots the polynom formula, then its derivative formula,
+	then its integral formula, then its graph.
+Paramerters		: os - an ostream object.
+Return value	: none
+************************************************************************/
 void polynom::plot(ostream& os) const {
 	printcoefs(os);
 	os << endl;
@@ -136,7 +169,12 @@ void polynom::plot(ostream& os) const {
 	os << "+Constant"<<endl;
 	func::plot(os);
 }
-
+/*************************************************************************
+Function name	: derivative
+Description		: returns the polynom of the object's derivative.
+Paramerters		: none
+Return value	: polynom
+************************************************************************/
 polynom polynom::derivative() const {
 	int newOrder = (n_ > 0) ? (n_ - 1) : 0;
 	int* coefsOfderivative = new int[newOrder + 1];
@@ -152,7 +190,12 @@ polynom polynom::derivative() const {
 	delete[] coefsOfderivative;
 	return derivativePolynom;
 }
-
+/*************************************************************************
+Function name	: integral
+Description		: returns the polynom of the object's integral.
+Paramerters		: none
+Return value	: polynom
+************************************************************************/
 polynom polynom::integral() const {
 	int newCoefSize = (n_==0 && coefs_[0]==0) ? 0 : n_ + 1;
 	int* coefsOfintegral = new int[newCoefSize + 1];
@@ -172,7 +215,13 @@ polynom polynom::integral() const {
 	return integralPolynom;
 }
 
-
+/*************************************************************************
+Function name	: getCoef
+Description		: returns the polynom's i'th coefficient. if i is out of
+	bound, throws an exception.
+Paramerters		: i - the index of the desired coefficient
+Return value	: int - the coefficient.
+************************************************************************/
 int polynom::getCoef(int i) const {
 	if (0 <= i && i <= n_) {
 		return coefs_[i];
@@ -182,6 +231,12 @@ int polynom::getCoef(int i) const {
 	}
 }
 
+/*************************************************************************
+Function name	: evaluate
+Description		: calculate's the polynom image on a speciefic input.
+Paramerters		: x - the input
+Return value	: int - the evaluation of the polynom on x
+************************************************************************/
 int polynom::evaluate(const int& x) const {
 	int f_x = 0;
 	for (int i = 0; i < (n_ + 1); i++) {
@@ -190,7 +245,12 @@ int polynom::evaluate(const int& x) const {
 	return f_x;
 }
 
-
+/*************************************************************************
+Function name	: printcoefs
+Description		: prints the polynom symbolic formula.
+Paramerters		: os - an ostream object.
+Return value	: none
+************************************************************************/
 void polynom::printcoefs(ostream& os)  const {
 
   int allZero = 1;
